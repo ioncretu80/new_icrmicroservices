@@ -1,11 +1,12 @@
 package com.example.icrscode.fraud;
 
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class FraudCheckService {
 
   private final FraudCheckHistoryRepository repository;
