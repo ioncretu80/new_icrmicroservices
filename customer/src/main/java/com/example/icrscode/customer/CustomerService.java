@@ -1,6 +1,7 @@
 package com.example.icrscode.customer;
 
 
+import com.example.icrscode.amqp.RabbitMQMessageProducer;
 import com.example.icrscode.clients.fraud.FraudCheckResponse;
 import com.example.icrscode.clients.fraud.FraudClient;
 import com.example.icrscode.clients.notificationClient.NotificationClient;
@@ -16,7 +17,9 @@ public class CustomerService {
 
 //  private final RestTemplate restTemplate;
   private final FraudClient fraudClient;
-  private final NotificationClient notificationClient;
+//  private final NotificationClient notificationClient;
+
+  private final RabbitMQMessageProducer rabbitMQMessageProducer;
 
 
 
@@ -55,11 +58,18 @@ public class CustomerService {
 
   //todo: send notification
 
-    notificationClient.sendNotification(new NotificationRequest(
+    NotificationRequest notificationRequest = new NotificationRequest(
         customer.getId(),
         customer.getEmail(),
         String.format("Hi %s, welcome to Amigoscode ...", customer.getFirstName())
-    ));
+    );
+    //notificationClient.sendNotification(notificationRequest);
+
+    rabbitMQMessageProducer.publish(notificationRequest,
+        "internal.exchange",
+        "internal.notification.routing-key"
+
+    );
 
   }
 }

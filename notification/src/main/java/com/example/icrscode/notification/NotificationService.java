@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class NotificationService {
   public final NotificationRepository notificationRepository;
 
-  public void sendNotification(NotificationRequest notificationRequest) {
+  public void send(NotificationRequest notificationRequest) {
    log.info("Notification start");
     notificationRepository.save(Notification.builder()
             .toCustomerId(notificationRequest.toCustomerId())
